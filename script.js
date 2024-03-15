@@ -108,67 +108,30 @@ document.addEventListener("DOMContentLoaded", function() {
                 });
         });
     }
-});
 
-// Obtener el contenedor de diseño
-let designContainer = document.getElementById('designContainer');
+    // Obtener el contenedor de diseño
+    let designContainer = document.getElementById('designContainer');
 
-// URL de la API
-const URL = 'https://api.escuelajs.co/api/v1/products';
+    // URL de la API
+    const URL = 'https://api.example.com/designs';
 
-// Realizar la solicitud a la API
-fetch(URL)
-    .then(response => response.json())
-    .then(data => {
-        const designs = data.results;
-        designs.forEach(design => {
-            // Realizar una solicitud para obtener más detalles del diseño
-            fetch(design.URL)
-                .then(response => response.json())
-                .then(designData => {
-                    // Crear un elemento para mostrar el diseño
-                    const designElement = document.createElement('div');
-                    designElement.innerHTML = `
-                        <h2>${designData.name}</h2>
-                        <img src="${designData.sprites.front_default}" alt="Imagen del diseño">
-                    `;
-                    // Agregar el elemento al contenedor de diseño
-                    designContainer.appendChild(designElement);
-                })
-                .catch(error => {
-                    console.error('Error al obtener datos del diseño:', error);
-                });
-        });
-    })
-    function fetchContent() {
-        fetch('api/data')
-            .then(response => response.json())
-            .then(data => {
-                // Manipular los datos obtenidos de la API
-                const contentDiv = document.getElementById('content');
-                contentDiv.innerHTML = '<h2>' + data.title + '</h2><p>' + data.content + '</p>';
-            })
-            .catch(error => {
-                console.error('Error al obtener datos de la API:', error);
+    // Realizar la solicitud a la API
+    fetch(URL)
+        .then(response => response.json())
+        .then(data => {
+            const designs = data.results;
+            designs.forEach(design => {
+                // Crear un elemento para mostrar el diseño
+                const designElement = document.createElement('div');
+                designElement.innerHTML = `
+                    <h2>${design.name}</h2>
+                    <img src="${design.imageURL}" alt="Imagen del diseño">
+                `;
+                // Agregar el elemento al contenedor de diseño
+                designContainer.appendChild(designElement);
             });
-    }
-
-    const express = require('express');
-const app = express();
-const PORT = 3000;
-
-// Ruta para obtener datos desde la API
-app.get('/api/data', (req, res) => {
-    // Datos de ejemplo
-    const data = {
-        title: 'Título del contenido',
-        content: 'Contenido de ejemplo obtenido desde la API'
-    };
-
-    // Enviar los datos como respuesta
-    res.json(data);
-});
-
-app.listen(PORT, () => {
-    console.log(`Servidor API corriendo en http://localhost:${PORT}`);
+        })
+        .catch(error => {
+            console.error('Error al obtener datos de la API:', error);
+        });
 });
